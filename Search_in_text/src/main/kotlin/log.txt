@@ -1,0 +1,76 @@
+[Word, World, Worldwide]
+max palindrome = ghjklkjhg | length = 9
+[String.wordsWith  100] -> go
+[String.wordsWith  100] 0 ms
+[String.wordsWith  100] 0 ms
+[String.wordsWith  100] 0 ms
+[String.wordsWith  100] 0 ms
+[String.wordsWith  100] 0 ms
+[String.wordsWith  100] 0 ms
+[String.wordsWith  100] 0 ms
+[String.wordsWith  100] 1 ms
+[String.wordsWith  100] 0 ms
+[String.wordsWith  100] 0 ms
+[String.wordsWith  100] -> average = 0 ms | median = 0 ms
+[String.wordsWith  1'000] -> go
+[String.wordsWith  1'000] 1 ms
+[String.wordsWith  1'000] 0 ms
+[String.wordsWith  1'000] 1 ms
+[String.wordsWith  1'000] 1 ms
+[String.wordsWith  1'000] 0 ms
+[String.wordsWith  1'000] 0 ms
+[String.wordsWith  1'000] 0 ms
+[String.wordsWith  1'000] 0 ms
+[String.wordsWith  1'000] 1 ms
+[String.wordsWith  1'000] 0 ms
+[String.wordsWith  1'000] -> average = 0 ms | median = 0 ms
+[String.wordsWith  10'000] -> go
+[String.wordsWith  10'000] 2 ms
+[String.wordsWith  10'000] 1 ms
+[String.wordsWith  10'000] 1 ms
+[String.wordsWith  10'000] 1 ms
+[String.wordsWith  10'000] 2 ms
+[String.wordsWith  10'000] 1 ms
+[String.wordsWith  10'000] 1 ms
+[String.wordsWith  10'000] 2 ms
+[String.wordsWith  10'000] 1 ms
+[String.wordsWith  10'000] 2 ms
+[String.wordsWith  10'000] -> average = 1 ms | median = 1 ms
+[String.maxPalindrome  100] -> go
+[String.maxPalindrome  100] 2 ms
+[String.maxPalindrome  100] 1 ms
+[String.maxPalindrome  100] 1 ms
+[String.maxPalindrome  100] 2 ms
+[String.maxPalindrome  100] 1 ms
+[String.maxPalindrome  100] 0 ms
+[String.maxPalindrome  100] 1 ms
+[String.maxPalindrome  100] 1 ms
+[String.maxPalindrome  100] 0 ms
+[String.maxPalindrome  100] 1 ms
+[String.maxPalindrome  100] -> average = 1 ms | median = 1 ms
+[String.maxPalindrome  1'000] -> go
+[String.maxPalindrome  1'000] 81 ms
+[String.maxPalindrome  1'000] 24 ms
+[String.maxPalindrome  1'000] 56 ms
+[String.maxPalindrome  1'000] 26 ms
+[String.maxPalindrome  1'000] 25 ms
+[String.maxPalindrome  1'000] 25 ms
+[String.maxPalindrome  1'000] 49 ms
+[String.maxPalindrome  1'000] 24 ms
+[String.maxPalindrome  1'000] 18 ms
+[String.maxPalindrome  1'000] 20 ms
+[String.maxPalindrome  1'000] -> average = 34 ms | median = 25 ms
+[String.maxPalindrome  10'000] -> go
+[String.maxPalindrome  10'000] 16805 ms
+[String.maxPalindrome  10'000] 15300 ms
+[String.maxPalindrome  10'000] 15845 ms
+[String.maxPalindrome  10'000] 15808 ms
+[String.maxPalindrome  10'000] 15772 ms
+[String.maxPalindrome  10'000] 15479 ms
+[String.maxPalindrome  10'000] 15576 ms
+[String.maxPalindrome  10'000] 15450 ms
+[String.maxPalindrome  10'000] 15638 ms
+[String.maxPalindrome  10'000] 16091 ms
+[String.maxPalindrome  10'000] -> average = 15776 ms | median = 15772 ms
+
+Process finished with exit code 0
