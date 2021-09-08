@@ -10,6 +10,8 @@
 #include <vector>
 #include <map>
 
+#include "profile.h"
+
 namespace taskThree {
 
 	const int MAX_NUMBERS_IN_FILE = 9'000'000;
@@ -17,6 +19,7 @@ namespace taskThree {
 	const int NUMBER_UPPER_THRESHOLD = 9'999'999;
 
 	void generateFile() {
+		LOG_DURATION("generateFile");
 		std::random_device randomDevice;
 		std::default_random_engine generator(randomDevice());
 		std::uniform_int_distribution<int> mainDistribution(NUMBER_LOWER_THRESHOLD, NUMBER_UPPER_THRESHOLD);
@@ -42,6 +45,7 @@ namespace taskThree {
 	}
 
 	void readFile(std::vector<bool>& data) {
+		LOG_DURATION("readFile");
 		std::ifstream input("random_numbers.txt");
 		if (input.is_open()) {
 			int number;
@@ -65,6 +69,7 @@ namespace taskThree {
 }
 
 void runTaskThree() {
+	LOG_DURATION("runTaskThree");
 	std::vector<bool> data;
 	taskThree::generateFile();
 	taskThree::readFile(data);
@@ -77,6 +82,7 @@ void runTaskThree() {
 		std::cerr << "[taskThree]: output.txt is not opened\n";
 	}
 	output.close();
+	std::clog << "[runTaskThree]: mem size of data is " << data.capacity() / 8 << " bytes" << std::endl;
 }
 
 #endif //THREE_H
