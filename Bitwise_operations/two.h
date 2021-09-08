@@ -19,7 +19,12 @@ namespace taskTwo {
 			std::cin >> number;
 			result += (1 << number);
 		}
-		std::cout << std::bitset<8>(result) << std::endl;
+		for (int index = 0; index < 8; index++) {
+			if (result & (1 << index)) {
+				std::cout << index << " ";
+			}
+		}
+		std::cout << std::endl;
 	}
 
 	void b() {
@@ -32,7 +37,12 @@ namespace taskTwo {
 			std::cin >> number;
 			result += ((unsigned long long)(1) << number);
 		}
-		std::cout << std::bitset<64>(result) << std::endl;
+		for (int index = 0; index < 64; index++) {
+			if (result & ((unsigned long long)(1) << index)) {
+				std::cout << index << " ";
+			}
+		}
+		std::cout << std::endl;
 	}
 
 	void c() {
@@ -53,16 +63,16 @@ namespace taskTwo {
 				data.push_back(true);
 			}
 		}
-		for (int bitIndex = data.size() - 1; bitIndex >= 0; bitIndex--) {
-			std::cout << (int)data[bitIndex];
+		for (int bitIndex = 0; bitIndex < data.size(); bitIndex++) {
+			if (data[bitIndex]) std::cout << bitIndex << " ";
 		}
 		std::cout << std::endl;
 	}
 }
 
 void runTaskTwo() {
-	taskTwo::a();
-	taskTwo::b();
+//	taskTwo::a();
+//	taskTwo::b();
 	taskTwo::c();
 }
 

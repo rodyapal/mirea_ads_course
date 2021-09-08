@@ -17,14 +17,14 @@ namespace taskOne {
 
 	void b() {
 		unsigned char number = 0;
-		unsigned char mask = 64;
-		std::cout << (int)(number | mask) << std::endl; //should be 64
+		unsigned char mask = 128;
+		std::cout << (int)(number | mask) << std::endl; //should be 128
 	}
 
 	void c() {
 		unsigned int number = 25;
 		const int bitsAmount = sizeof(int) * 8; //32
-		unsigned mask = (1 << (bitsAmount - 1));
+		unsigned mask = (1 << (bitsAmount - 1)); //2^31
 		std::cout << "Mask at the beginning: " << std::bitset<bitsAmount>(mask) << std::endl;
 		std::cout << "Result: ";
 		for (int i = 1; i <= bitsAmount; i++) {//Prints value of number

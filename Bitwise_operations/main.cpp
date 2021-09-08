@@ -4,10 +4,10 @@
 using namespace std;
 
 int main() {
-//	runTaskOne();
-//	cout << "-----------------------------------\n";
-//	runTaskTwo();
-//	cout << "-----------------------------------\n";
+	runTaskOne();
+	cout << "-----------------------------------\n";
+	runTaskTwo();
+	cout << "-----------------------------------\n";
 	runTaskThree();
     return 0;
 }
