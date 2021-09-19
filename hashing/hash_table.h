@@ -19,42 +19,64 @@ struct Reader {
 	}
 };
 
-enum class TableEntityState {
-	FREE,
-	IN_USE
-};
-
-template<typename Key_, typename Value_>
-struct TableEntity {
-	Key_ key;
-	Value_ value;
-	TableEntityState state = TableEntityState::FREE;
-};
-
+/**
+ * Hash table with quadratic probing
+ * @tparam Key - type of key for hash function
+ * @tparam Value - type of stored values
+ * @tparam Hash - signature of hash function
+ */
 template<typename Key, typename Value, typename Hash>
 class HashTable {
 private:
-	using Table = TableEntity<Key, Value>*;
+
+	enum class TableEntityState {
+		FREE,
+		IN_USE
+	};
+
+	struct TableEntity {
+		Key key;
+		Value value;
+		TableEntityState state = TableEntityState::FREE;
+	};
+
+	using Table = TableEntity*;
 	size_t capacity{};
 	size_t size{};
 
 	Table table;
 	Hash hashFunc;
 
+	/**
+	 *	Get item index in table
+	 * @param key - key of a table entity for hash function
+	 * @param modulus - value the result of a hash function will be divided on. Mostly table capacity
+	 * @return index of item in table
+	 */
 	size_t getIndex(const Key& key, const size_t& modulus) const {
 		return hashFunc(key) % modulus;
 	}
 
+	/**
+	 *	Get item index in table if getIndex() value if occupied
+	 * @param key - key of a table entity for hash function
+	 * @param constant - step of quadratic probing
+	 * @param modulus - value the result of a hash function will be divided on. Mostly table capacity
+	 * @return index of item in table depending on given constant
+	 */
 	size_t squareGetIndex(const Key& key, const size_t& constant, const size_t& modulus) const {
 		return (hashFunc(key) + (constant + constant * constant) / 2) % modulus;
 	}
 
+	/**
+	 * Rebuilds the table with doubled capacity
+	 */
 	void rehash() {
 		size_t newCapacity = capacity * 2;
 
-		auto* newTable = new TableEntity<Key, Value>[newCapacity];
+		auto* newTable = new TableEntity[newCapacity];
 		for (size_t i = 0; i < newCapacity; i++) {
-			newTable[i] = TableEntity<Key, Value>();
+			newTable[i] = TableEntity();
 		}
 
 		for (size_t i = 0; i < capacity; i++)
@@ -68,6 +90,14 @@ private:
 		capacity = newCapacity;
 	}
 
+	/**
+	 * Inserts a key-value pair into the given table
+	 * @param key_ - key of a table entity for hash function
+	 * @param value_ - value to be stored in table
+	 * @param table_ - hash table where key-value pairs stored
+	 * @param capacity_ - capacity of the given table
+	 * @return index of the key-value pair in table
+	 */
 	size_t insert(const Key& key_, const Value& value_, Table table_, size_t capacity_) {
 		size_t index = getIndex(key_, capacity_);
 		for (size_t constant = 1; table_[index].state == TableEntityState::IN_USE; constant++) {
@@ -84,13 +114,19 @@ public:
 	explicit HashTable(size_t capacity, Hash hashFunction)
 		: capacity(capacity), size(0), hashFunc(hashFunction)
 	{
-		table = new TableEntity<Key,Value>[capacity];
+		table = new TableEntity[capacity];
 
 		for (size_t i = 0; i < capacity; i++) {
-			table[i] = TableEntity<Key, Value>();
+			table[i] = TableEntity();
 		}
 	}
 
+	/**
+	 * Inserts a key-value pair into the table
+	 * @param key - key of a table entity for hash function
+	 * @param value - value to be stored in table
+	 * @return index of the key-value pair in table
+	 */
 	size_t insert(const Key& key, const Value& value) {
 		if (size * 2 > capacity) {
 			rehash();
@@ -99,6 +135,10 @@ public:
 		return insert(key, value, table, capacity);
 	}
 
+	/**
+	 * Erases the key-value pair from table
+	 * @param key - key of a table entity for hash function
+	 */
 	void erase(const Key& key) {
 		size_t index = getIndex(key, capacity);
 		for (size_t constant = 1; key != table[index].key; constant++) {
@@ -108,6 +148,12 @@ public:
 		size--;
 	}
 
+	/**
+	 * Get the value by index
+	 * @param key - key of a table entity for hash function
+	 * @return stored value
+	 * @throws invalid_argument when item with given key was deleted or not present in table
+	 */
 	Value& operator[] (const Key& key) const {
 		size_t index = getIndex(key, capacity);
 		std::vector<bool> indexes(capacity, false);
@@ -121,10 +167,18 @@ public:
 		throw std::invalid_argument("Entity was erased");
 	}
 
+	/**
+	 *
+	 * @return amount of occupied table entities
+	 */
 	size_t getSize() const {
 		return size;
 	}
 
+	/**
+	 *
+	 * @return total capacity of the table
+	 */
 	size_t getCapacity() const {
 		return capacity;
 	}
