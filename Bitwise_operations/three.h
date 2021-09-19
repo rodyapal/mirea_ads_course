@@ -25,7 +25,7 @@ namespace taskThree {
 		std::uniform_int_distribution<int> mainDistribution(NUMBER_LOWER_THRESHOLD, NUMBER_UPPER_THRESHOLD);
 		std::uniform_int_distribution<int> supportDistribution(0, MAX_NUMBERS_IN_FILE);
 		int numbersInFile = supportDistribution(generator);
-
+        std::clog << "[generateFile]: numbers in File: " << numbersInFile << std::endl;
 		std::ofstream stream("random_numbers.txt");
 		if (stream.is_open()) {
 			std::map<int, bool> savedNumbers;

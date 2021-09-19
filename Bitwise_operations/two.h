@@ -71,8 +71,8 @@ namespace taskTwo {
 }
 
 void runTaskTwo() {
-//	taskTwo::a();
-//	taskTwo::b();
+	taskTwo::a();
+	taskTwo::b();
 	taskTwo::c();
 }
 
