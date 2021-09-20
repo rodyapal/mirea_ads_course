@@ -15,18 +15,9 @@ int main() {
 	for (int i = 0; i < size; i++) {
 		table.insert(i, Reader{i, "NAME", "ADDRESS"});
 	}
-	for (int i = 0; i < size; i++) {
-		cout << table[i].toString() << endl;
-	}
+	cout << table;
 	table.erase(5);
 	cout << "---------------------" << endl;
-	for (int i = 0; i < size; i++) {
-		try {
-			cout << table[i].toString() << endl;
-		} catch (exception& e) {
-			cerr << e.what() << endl;
-		}
-
-	}
+	cout << table;
     return 0;
 }

@@ -43,6 +43,7 @@ private:
 	using Table = TableEntity*;
 	size_t capacity{};
 	size_t size{};
+	size_t itemsInUse{};
 
 	Table table;
 	Hash hashFunc;
@@ -112,7 +113,7 @@ private:
 public:
 
 	explicit HashTable(size_t capacity, Hash hashFunction)
-		: capacity(capacity), size(0), hashFunc(hashFunction)
+		: capacity(capacity), size(0), itemsInUse(0), hashFunc(hashFunction)
 	{
 		table = new TableEntity[capacity];
 
@@ -132,6 +133,7 @@ public:
 			rehash();
 		}
 		size++;
+		itemsInUse++;
 		return insert(key, value, table, capacity);
 	}
 
@@ -145,7 +147,7 @@ public:
 			index = squareGetIndex(key, constant, capacity);
 		}
 		table[index].state = TableEntityState::FREE;
-		size--;
+		itemsInUse--;
 	}
 
 	/**
@@ -168,15 +170,20 @@ public:
 	}
 
 	/**
-	 *
-	 * @return amount of occupied table entities
+	 * @return items in use + items that were erased
 	 */
 	size_t getSize() const {
 		return size;
 	}
 
 	/**
-	 *
+	 * @return amount of items items in use
+	 */
+	size_t getItemsInUse() const {
+		return itemsInUse;
+	}
+
+	/**
 	 * @return total capacity of the table
 	 */
 	size_t getCapacity() const {
@@ -187,5 +194,15 @@ public:
 		delete[] table;
 	}
 };
+
+template<typename Hash>
+std::ostream& operator<<(std::ostream& stream, const HashTable<int, Reader, Hash>& data) {
+	for (int i = 0; i < data.getSize(); i++) {
+		try {
+			stream << data[i].toString() << std::endl;
+		} catch (std::exception& e) {}
+	}
+	return stream;
+}
 
 #endif //HASH_TABLE_H
