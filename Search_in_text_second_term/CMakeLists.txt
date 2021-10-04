@@ -3,4 +3,4 @@ project(Search_in_text_second_term)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Search_in_text_second_term main.cpp)
+add_executable(Search_in_text_second_term main.cpp one.h two.h)
