@@ -23,13 +23,13 @@ private:
 		explicit Node(const std::string &item) : data(item) {}
 	};
 
-	Color getColor(Node* node) const {
+	Color get_color(Node* node) const {
 		if (node == nullptr)
 			return Color::BLACK;
 		return node->color;
 	}
 
-	void setColor(Node* node, Color color) {
+	void set_color(Node* node, Color color) {
 		if (node == nullptr)
 			return;
 		node->color = color;
@@ -99,15 +99,15 @@ private:
 
 	void insert_clean_up(Node *&node) {
 		Node *parent = nullptr, *grandparent = nullptr, *uncle = nullptr;
-		while (node != root && getColor(node) == Color::RED && getColor(node->parent) == Color::RED) {
+		while (node != root && get_color(node) == Color::RED && get_color(node->parent) == Color::RED) {
 			parent = node->parent;
 			grandparent = parent->parent;
 			if (parent == grandparent->left) {
 				uncle = grandparent->right;
-				if (getColor(uncle) == Color::RED) {
-					setColor(uncle, Color::BLACK);
-					setColor(parent, Color::BLACK);
-					setColor(grandparent, Color::RED);
+				if (get_color(uncle) == Color::RED) {
+                    set_color(uncle, Color::BLACK);
+                    set_color(parent, Color::BLACK);
+                    set_color(grandparent, Color::RED);
 					node = grandparent;
 				} else {
 					if (node == parent->right) {
@@ -121,10 +121,10 @@ private:
 				}
 			} else {
 				uncle = grandparent->left;
-				if (getColor(uncle) == Color::RED) {
-					setColor(uncle, Color::BLACK);
-					setColor(parent, Color::BLACK);
-					setColor(grandparent, Color::RED);
+				if (get_color(uncle) == Color::RED) {
+                    set_color(uncle, Color::BLACK);
+                    set_color(parent, Color::BLACK);
+                    set_color(grandparent, Color::RED);
 					node = grandparent;
 				} else {
 					if (node == parent->left) {
@@ -138,7 +138,7 @@ private:
 				}
 			}
 		}
-		setColor(root, Color::BLACK);
+        set_color(root, Color::BLACK);
 	}
 
 	void erase_nodes(Node *node) {
@@ -196,7 +196,7 @@ private:
 		}
 	}
 
-	void graphvizStr(Node *node, std::string &str) const {
+	void graphviz_str(Node *node, std::string &str) const {
 		if (node == nullptr)
 			return;
 
@@ -221,14 +221,14 @@ private:
 			str += "\"" + node->data + "\"" + "[color = black];\n";
 		}
 
-		graphvizStr(node->left, str);
-		graphvizStr(node->right, str);
+        graphviz_str(node->left, str);
+        graphviz_str(node->right, str);
 	}
 
 public:
 	explicit StringRBtree(const std::string &root_data) {
 		root = new Node(root_data);
-		setColor(root, Color::BLACK);
+        set_color(root, Color::BLACK);
 	}
 
 	explicit StringRBtree() {
@@ -285,7 +285,7 @@ public:
 		size_t height = 0;
 		if (root != nullptr) {
 			for (Node* node = root; node->left != nullptr; node = node->left) {
-				if (getColor(node) == Color::BLACK) {
+				if (get_color(node) == Color::BLACK) {
 					height++;
 				}
 			}
@@ -302,7 +302,7 @@ public:
 
 	std::string to_graphviz(const std::string& name = "RBtree") const {
 		std::string result = "digraph " + name + " {\nnode [fontcolor = white; style = filled];\n";
-		graphvizStr(root, result);
+        graphviz_str(root, result);
 		result += "}";
 		return result;
 	}
