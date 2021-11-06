@@ -10,17 +10,10 @@
 #include <vector>
 #include <algorithm>
 
-namespace std {
-    string to_string(const std::string& str) {
-        return str;
-    }
-}
-
 template<class Type>
 class Graph {
 private:
     using Connections = std::map<Type, size_t>;
-    using Connection = std::pair<Type, size_t>;
 
     std::map<Type, Connections> data;
 public:
@@ -28,23 +21,6 @@ public:
     void add_connection(const Type &first, const Type &second, const size_t &length) {
         data[first][second] = length;
         data[second][first] = length;
-    }
-
-    std::string to_graphviz(const std::string& title = "Data") {
-        std::string result = "graph " + title + " {\n";
-        std::vector<Type> done;
-        for (const auto&[node, connections]: data) {
-            for (const auto&[connection_node, connection_size]: connections) {
-                if (std::find(done.begin(), done.end(), connection_node) == done.end()) {
-                    result += "\"" + std::to_string(node) + "\" -- \""
-                              + std::to_string(connection_node)
-                              + "\" [label=\"" + std::to_string(connection_size) + "\"]\n";
-                }
-            }
-            done.push_back(node);
-        }
-        result += "}";
-        return result;
     }
 
     Graph<Type> prim() {
@@ -72,6 +48,23 @@ public:
 		}
         return result;
     }
+
+	std::string to_graphviz(const std::string& title = "Data") {
+		std::string result = "graph " + title + " {\n";
+		std::vector<Type> done;
+		for (const auto&[node, connections]: data) {
+			for (const auto&[connection_node, connection_size]: connections) {
+				if (std::find(done.begin(), done.end(), connection_node) == done.end()) {
+					result += "\"" + std::to_string(node) + "\" -- \""
+							  + std::to_string(connection_node)
+							  + "\" [label=\"" + std::to_string(connection_size) + "\"]\n";
+				}
+			}
+			done.push_back(node);
+		}
+		result += "}";
+		return result;
+	}
 };
 
 
