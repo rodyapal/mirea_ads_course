@@ -23,13 +23,13 @@ private:
 		explicit Node(const std::string &item) : data(item) {}
 	};
 
-	Color get_color(Node* node) const {
+	Color get_color(Node *node) const {
 		if (node == nullptr)
 			return Color::BLACK;
 		return node->color;
 	}
 
-	void set_color(Node* node, Color color) {
+	void set_color(Node *node, Color color) {
 		if (node == nullptr)
 			return;
 		node->color = color;
@@ -47,11 +47,9 @@ private:
 		right_child->parent = new_node->parent;
 		if (new_node->parent == nullptr) {
 			root = right_child;
-		}
-		else if (new_node == new_node->parent->left) {
+		} else if (new_node == new_node->parent->left) {
 			new_node->parent->left = right_child;
-		}
-		else {
+		} else {
 			new_node->parent->right = right_child;
 		}
 		right_child->left = new_node;
@@ -70,11 +68,9 @@ private:
 
 		if (new_node->parent == nullptr) {
 			root = left_child;
-		}
-		else if (new_node == new_node->parent->left) {
+		} else if (new_node == new_node->parent->left) {
 			new_node->parent->left = left_child;
-		}
-		else {
+		} else {
 			new_node->parent->right = left_child;
 		}
 
@@ -105,9 +101,9 @@ private:
 			if (parent == grandparent->left) {
 				uncle = grandparent->right;
 				if (get_color(uncle) == Color::RED) {
-                    set_color(uncle, Color::BLACK);
-                    set_color(parent, Color::BLACK);
-                    set_color(grandparent, Color::RED);
+					set_color(uncle, Color::BLACK);
+					set_color(parent, Color::BLACK);
+					set_color(grandparent, Color::RED);
 					node = grandparent;
 				} else {
 					if (node == parent->right) {
@@ -122,9 +118,9 @@ private:
 			} else {
 				uncle = grandparent->left;
 				if (get_color(uncle) == Color::RED) {
-                    set_color(uncle, Color::BLACK);
-                    set_color(parent, Color::BLACK);
-                    set_color(grandparent, Color::RED);
+					set_color(uncle, Color::BLACK);
+					set_color(parent, Color::BLACK);
+					set_color(grandparent, Color::RED);
 					node = grandparent;
 				} else {
 					if (node == parent->left) {
@@ -138,7 +134,7 @@ private:
 				}
 			}
 		}
-        set_color(root, Color::BLACK);
+		set_color(root, Color::BLACK);
 	}
 
 	void erase_nodes(Node *node) {
@@ -150,7 +146,7 @@ private:
 	}
 
 	template<class Action>
-	void direct_traversal(Node* node, Action on_each) {
+	void direct_traversal(Node *node, Action on_each) {
 		if (node == nullptr) return;
 
 		on_each(node->data);
@@ -159,7 +155,7 @@ private:
 	}
 
 	template<class Action>
-	void direct_traversal(Node* node, Action on_each) const {
+	void direct_traversal(Node *node, Action on_each) const {
 		if (node == nullptr) return;
 
 		on_each(node->data);
@@ -168,7 +164,7 @@ private:
 	}
 
 	template<class Action>
-	void symmetrical_traversal(Node* node, Action on_each) {
+	void symmetrical_traversal(Node *node, Action on_each) {
 		if (node == nullptr) return;
 
 		symmetrical_traversal(node->left, on_each);
@@ -177,7 +173,7 @@ private:
 	}
 
 	template<class Action>
-	void symmetrical_traversal(Node* node, Action on_each) const {
+	void symmetrical_traversal(Node *node, Action on_each) const {
 		if (node == nullptr) return;
 
 		symmetrical_traversal(node->left, on_each);
@@ -185,7 +181,7 @@ private:
 		symmetrical_traversal(node->right, on_each);
 	}
 
-	void concatenate_leaves(Node* node, std::string& result) const {
+	void concatenate_leaves(Node *node, std::string &result) const {
 		if (node == nullptr) {
 			return;
 		} else if (node->left == nullptr && node->right == nullptr) {
@@ -216,19 +212,26 @@ private:
 
 		if (node->color == Color::RED) {
 			str += "\"" + node->data + "\"" + "[color = red];\n";
-		}
-		else {
+		} else {
 			str += "\"" + node->data + "\"" + "[color = black];\n";
 		}
 
-        graphviz_str(node->left, str);
-        graphviz_str(node->right, str);
+		graphviz_str(node->left, str);
+		graphviz_str(node->right, str);
+	}
+
+	size_t height(Node *node) const {
+		if (node == nullptr) return 0;
+		size_t left = height(node->left),
+				right = height(node->right);
+		size_t max = left > right ? left : right;
+		return max + 1;
 	}
 
 public:
 	explicit StringRBtree(const std::string &root_data) {
 		root = new Node(root_data);
-        set_color(root, Color::BLACK);
+		set_color(root, Color::BLACK);
 	}
 
 	explicit StringRBtree() {
@@ -282,16 +285,7 @@ public:
 	}
 
 	size_t height() const {
-		size_t height = 0;
-		if (root != nullptr) {
-			for (Node* node = root; node->left != nullptr; node = node->left) {
-				if (get_color(node) == Color::BLACK) {
-					height++;
-				}
-			}
-			height++;
-		}
-		return height;
+		return height(root);
 	}
 
 	std::string concatenate_leaves() const {
@@ -300,9 +294,9 @@ public:
 		return result;
 	}
 
-	std::string to_graphviz(const std::string& name = "RBtree") const {
+	std::string to_graphviz(const std::string &name = "RBtree") const {
 		std::string result = "digraph " + name + " {\nnode [fontcolor = white; style = filled];\n";
-        graphviz_str(root, result);
+		graphviz_str(root, result);
 		result += "}";
 		return result;
 	}
