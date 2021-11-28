@@ -25,7 +25,7 @@ std::vector<size_t> prefixFunction(const std::string& str) {
 
 size_t maxPrefix(const std::string& a, const std::string& b) {
 	auto prefixes = prefixFunction(a + '\0' + b);
-	return *std::max_element(prefixes.begin(),  prefixes.end());
+	return *std::max_element(std::next(prefixes.begin(), a.length()),  prefixes.end());
 }
 
 #endif //TWO_H
